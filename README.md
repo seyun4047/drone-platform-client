@@ -29,13 +29,14 @@ python3 main.py
 ```
 ---
 ## Stack
-| Category         | Technology              | Purpose                             |
-| ---------------- |-------------------------| ----------------------------------- |
-| Language         | Python                  | Core application logic              |
-| Numeric OCR      | Tesseract (pytesseract) | Extract speed and telemetry numbers |
-| Person Detection | YOLOv8 (Ultralytics)    | Real-time person detection          |
-| Computer Vision  | OpenCV                  | Image processing                    |
-| GUI              | PyQt5                   | Desktop interface                   |
+| Category         | Technology                      | Version      | Purpose                             |
+|------------------|---------------------------------|-------------|-------------------------------------|
+| Language         | Python                          | 3.x         | Core application logic              |
+| Numeric OCR      | Tesseract (pytesseract)         | 0.3.13      | Extract speed and telemetry numbers |
+| Person Detection | YOLOv8 (Ultralytics)            | 8.4.12      | Real-time person detection          |
+| Computer Vision  | OpenCV                          | 4.12.0.88   | Image processing                    |
+| GUI              | PyQt5                           | 5.15.11     | Desktop interface                   |
+| Deep Learning    | PyTorch (torch, torchvision)    | 2.10.0 / 0.25.0 | Model inference engine          |
 
 ---
 ## Event Handling
