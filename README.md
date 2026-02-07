@@ -1,4 +1,56 @@
-# Manufacturer-Independent Drone Platform
+# Drone Data Transmission & Multi-ROI Detection Client
+
+## Repository Overview
+This client application collects telemetry data from a drone and transmits it to a central server in real time.
+The system is designed to operate in an environment where the drone’s video feed and on-screen telemetry data can be continuously monitored.
+Typically, telemetry information is captured directly from the drone controller’s display, where speed and other flight data are shown.
+---
+
+## How It Works
+### 1. Connect to the server
+Enter the authorized drone serial and device name, then connect.
+### 2. Select detection areas (ROI)
+Drag over the regions on the screen where the desired information is displayed.
+### 3. Automatic detection and transmission
+When data is detected, it is processed and sent to the main server.
+
+---
+## Installation
+Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+---
+## Usage
+Run the application:
+```bash
+python3 main.py
+```
+---
+## Stack
+| Category         | Technology              | Purpose                             |
+| ---------------- |-------------------------| ----------------------------------- |
+| Language         | Python                  | Core application logic              |
+| Numeric OCR      | Tesseract (pytesseract) | Extract speed and telemetry numbers |
+| Person Detection | YOLOv8 (Ultralytics)    | Real-time person detection          |
+| Computer Vision  | OpenCV                  | Image processing                    |
+| GUI              | PyQt5                   | Desktop interface                   |
+
+---
+## Event Handling
+When a person is detected in the video feed, an event is generated.
+The event data is transmitted to the server.
+Both the server and the client can monitor these events in real time.
+
+---
+## Caution
+The system must operate in an environment where the drone’s video information can be monitored in real time.
+Drone telemetry data is typically obtained from the camera drone’s remote controller screen.
+The screen must display speed and other flight information.
+For coordinate detection, a simple GPS module should be attached, and its data must be visible on the screen so it can be detected in real time.
+
+---
+# Part of: Manufacturer-Independent Drone Platform
 
 The project aims to be a **manufacturer-independent drone platform**, connecting various drone devices with standardized interfaces and performing **Redis-based authentication and status management**.
 
