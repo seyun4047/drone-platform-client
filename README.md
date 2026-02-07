@@ -1,18 +1,19 @@
 # Drone Data Transmission & Multi-ROI Detection Client
 
 ## Repository Overview
-This client application collects telemetry data from a drone and transmits it to a central server in real time.
-The system is designed to operate in an environment where the drone’s video feed and on-screen telemetry data can be continuously monitored.
-Typically, telemetry information is captured directly from the drone controller’s display, where speed and other flight data are shown.
+- This client application collects telemetry data from a drone and transmits it to a central server in real time.
+- The system is designed to operate in an environment where the drone’s video feed and on-screen telemetry data can be continuously monitored.
+- Typically, telemetry information is captured directly from the drone controller’s display, where speed and other flight data are shown.
+
 ---
 
 ## How It Works
 ### 1. Connect to the server
-Enter the authorized drone serial and device name, then connect.
+- Enter the authorized drone serial and device name, then connect.
 ### 2. Select detection areas (ROI)
-Drag over the regions on the screen where the desired information is displayed.
+- Drag over the regions on the screen where the desired information is displayed.
 ### 3. Automatic detection and transmission
-When data is detected, it is processed and sent to the main server.
+- When data is detected, it is processed and sent to the main server.
 
 ---
 ## Installation
