@@ -18,13 +18,13 @@
 ### SEND DATA
 | DETECT PERSON | SEND EVENT DATA |
 |:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img src="https://github.com/user-attachments/assets/5e0d744b-22ad-44e5-a3da-46d22e656246" width="300">|
-|Automatically detect person.|Send event data to the server.|
+|<img src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img width="300" alt="스크린샷 2026-02-08 22 53 30" src="https://github.com/user-attachments/assets/b4f43752-97c3-4c60-ae6d-424b73721697" />|
+|Automatically detect person.|Send event data to the server.<br>(The image represents event data received from the client by the server.)|
 
 | TELEMETRY DATA |
 |:---:|
-|<img src="https://github.com/user-attachments/assets/bd7204a8-0c98-4088-9278-87b6217f4490" width="300">|
-|If nothing is detected, send telemetry data to the server.|
+|<img width="300" alt="스크린샷 2026-02-08 22 53 55" src="https://github.com/user-attachments/assets/7356d83b-f2e8-42fd-8b9a-6096556ff142" />|
+|If nothing is detected, send telemetry data to the server.<br>(The image represents telemetry data received from the client by the server.)|
 
 
 ---
