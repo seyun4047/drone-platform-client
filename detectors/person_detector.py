@@ -67,17 +67,14 @@ class PersonDetector(BaseDetector):
                 )
 
         count = len(person)
-        image_path = None
         s3_url = None
 
         if count > 0:
-            image_path = self._save_event(frame, person)
-            s3_url = self.upload_client.upload_file(image_path)
+            s3_url = self._save_event(frame, person)
 
         return {
             "person_count": count,
-            "image_path": image_path,
-            "s3_url": s3_url
+            "image_path": s3_url
         }
 
     def _save_event(self, frame, person):
@@ -90,8 +87,8 @@ class PersonDetector(BaseDetector):
 
         with open(log_path, "a") as f:
             f.write(f"[{timestamp}] detected {len(person)} person: {person}\n")
-
-        return img_path
+        s3_url = self.upload_client.upload_file(img_path)
+        return s3_url
 
     def _print_result(self, result):
         if result and "person_count" in result:
