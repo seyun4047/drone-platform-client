@@ -8,12 +8,24 @@
 ---
 
 ## How It Works
-### 1. Connect to the server
-- Enter the authorized drone serial and device name, then connect.
-### 2. Select detection areas (ROI)
-- Drag over the regions on the screen where the desired information is displayed.
-### 3. Automatic detection and transmission
-- When data is detected, it is processed and sent to the main server.
+
+### SETUP
+| 1. CONNECT TO THE SERVER | 2. SELECT ROI | 3. ANALYSIS |
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/e5336103-6f95-4023-8e5e-401f4d8cf3f1" width="200">|<img src="https://github.com/user-attachments/assets/548a50ed-01da-4236-8501-cd21056c22e1" width="200">|<img src="https://github.com/user-attachments/assets/c9b7026f-c56a-4f4b-a8da-818017d658ca" width="200">|
+|Enter the authorized drone serial and device name, then connect.|Select the regions on the screen to monitor the desired information.|When data is detected, it is processed and sent to the main server.|
+
+### SEND DATA
+| DETECT PERSON | SEND EVENT DATA |
+|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img src="https://github.com/user-attachments/assets/5e0d744b-22ad-44e5-a3da-46d22e656246" width="300">|
+|Automatically detect person.|Send event data to the server.|
+
+| TELEMETRY DATA |
+|:---:|
+|<img src="https://github.com/user-attachments/assets/bd7204a8-0c98-4088-9278-87b6217f4490" width="300">|
+|If nothing is detected, send telemetry data to the server.|
+
 
 ---
 ## Installation
