@@ -57,6 +57,11 @@ The event data is transmitted to the server.
 Both the server and the client can monitor these events in real time.
 
 ---
+## FLOW
+| OVERALL FLOW | AWS S3 UPLOAD FLOW |
+|:---:|:---:|
+|<img height="1000" alt="Untitled diagram-2026-02-08-201750" src="https://github.com/user-attachments/assets/2d25b82b-3ebd-41e1-b0af-b928de5fdcc8" />|<img height="1000" alt="Untitled diagram-2026-02-08-201847" src="https://github.com/user-attachments/assets/2217b0cb-2b20-4789-b53f-d8443c5c4e76" />|
+---
 ## Caution
 The system must operate in an environment where the drone’s video information can be monitored in real time.
 Drone telemetry data is typically obtained from the camera drone’s remote controller screen.
