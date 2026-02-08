@@ -2,9 +2,10 @@ import os
 import cv2
 import numpy as np
 from datetime import datetime
+from aws.presigned_upload_client import PresignedUploadClient
 from detectors.base_detector import BaseDetector
 from ultralytics import YOLO
-
+from config.env_config import SERVER_URL
 
 class PersonDetector(BaseDetector):
     """
@@ -14,52 +15,46 @@ class PersonDetector(BaseDetector):
         super().__init__(roi_type=3, roi_name='Person Detection')
         self.detected_count = 0
 
-        # Load YOLOv8 model (automatically downloaded on first run)
-        # Choose from: 'n'(nano), 's'(small), 'm'(medium), 'l'(large), 'x'(xlarge)
-        # For drone footage, yolov8n.pt (fastest) is recommended
+        # YOLOv8 model
         self.model = YOLO('yolov8n.pt')
 
-        # Detect only the person class (COCO dataset class 0 = person)
+        # Detect only person class
         self.target_class = 0
-
-        # Detection confidence threshold (0.0 ~ 1.0)
         self.conf_threshold = 0.5
 
         # Log directory
         os.makedirs("log/pic", exist_ok=True)
+
+        # Presigned upload client
+        self.upload_client = PresignedUploadClient(SERVER_URL)
 
     def process(self):
         image = self.capture_roi()
         if image is None:
             return None
 
-        # Convert PIL → OpenCV format
+        # Convert PIL → OpenCV
         frame = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
-        # YOLOv8 inference
+        # YOLO inference
         results = self.model(
             frame,
             conf=self.conf_threshold,
-            classes=[self.target_class],  # detect only persons
-            verbose=False  # minimize log output
+            classes=[self.target_class],
+            verbose=False
         )
 
         person = []
 
-        # Process detection results
         for result in results:
             boxes = result.boxes
             for box in boxes:
-                # Bounding box coordinates (x1, y1, x2, y2)
                 x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                 x, y, w, h = int(x1), int(y1), int(x2 - x1), int(y2 - y1)
 
-                # Confidence score
                 conf = float(box.conf[0])
-
                 person.append((x, y, w, h, conf))
 
-                # Draw bounding box and confidence
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 cv2.putText(
                     frame,
@@ -72,15 +67,14 @@ class PersonDetector(BaseDetector):
                 )
 
         count = len(person)
-        image_path = None
+        s3_url = None
 
         if count > 0:
-            image_path = self._save_event(frame, person)
+            s3_url = self._save_event(frame, person)
 
         return {
-            "person_count": int(count),
-            # "positions": person,
-            "image_path": image_path
+            "person_count": count,
+            "image_path": s3_url
         }
 
     def _save_event(self, frame, person):
@@ -93,8 +87,8 @@ class PersonDetector(BaseDetector):
 
         with open(log_path, "a") as f:
             f.write(f"[{timestamp}] detected {len(person)} person: {person}\n")
-
-        return img_path
+        s3_url = self.upload_client.upload_file(img_path)
+        return s3_url
 
     def _print_result(self, result):
         if result and "person_count" in result:
