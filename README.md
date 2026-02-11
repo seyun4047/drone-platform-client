@@ -71,7 +71,6 @@ For coordinate detection, a simple GPS module should be attached, and its data m
 
 ---
 
-<img width="5838" height="4039" alt="Untitled diagram-2026-02-11-182634" src="https://github.com/user-attachments/assets/6988927f-025d-4f7d-93e2-55427dcef741" />---
 # PROJECT OVERVIEW
 # Manufacturer-Independent Drone Platform
 ---
