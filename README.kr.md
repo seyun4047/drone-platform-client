@@ -1,80 +1,170 @@
-Original English Document: [https://github.com/seyun4047/drone-platform-client/blob/main/README.md](https://github.com/seyun4047/drone-platform-client/blob/main/README.md)
+
+해당 문서는 gemini-2.5-flash-lite 로 자동 번역되어 부자연스러운 부분이 있을 수 있으니,<br>정확한 내용을 여기서 확인해주세요. : [영어 문서](https://github.com/seyun4047/drone-platform-docs/blob/main/components/client/client.md)
 
 ---
 
-해당 문서는 gemini-2.5-flash-lite 로 자동 번역되어 부자연스러운 부분이 있을 수 있으니,<br>정확한 내용을 여기서 확인해주세요. : [영어 문서](https://github.com/seyun4047/drone-platform-{component}/blob/main/README.md)
+Korean version: [한국어 문서](https://github.com/seyun4047/drone-platform-docs/blob/main/components/client/client.kr.md)
 
 ---
 
-# 드론 데이터 전송 및 Multi-ROI 감지 클라이언트
+# Drone Data Transmission & Multi-ROI Detection Client
 
 ---
-## 리포지토리 개요
-- 이 클라이언트 애플리케이션은 드론에서 텔레메트리 데이터를 수집하여 실시간으로 중앙 서버로 전송합니다.
-- 이 시스템은 드론의 영상 피드와 화면상의 텔레메트리 데이터를 지속적으로 모니터링할 수 있는 환경에서 작동하도록 설계되었습니다.
-- 일반적으로 텔레메트리 정보는 속도 및 기타 비행 데이터가 표시되는 드론 컨트롤러 디스플레이에서 직접 캡처됩니다.
+## Repository Overview
+- This client application collects telemetry data from a drone and transmits it to a central server in real time.
+- The system is designed to operate in an environment where the drone’s video feed and on-screen telemetry data can be continuously monitored.
+- Typically, telemetry information is captured directly from the drone controller’s display, where speed and other flight data are shown.
 
 ---
 
-## 작동 방식
+## How It Works
 
-### 설정
-| 1. 서버 연결 | 2. ROI 선택 | 3. 분석 |
+### SETUP
+| 1. CONNECT TO THE SERVER | 2. SELECT ROI | 3. ANALYSIS |
 |:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/e5336103-6f95-4023-8e5e-401f4d8cf3f1" width="200">|<img src="https://github.com/user-attachments/assets/548a50ed-01da-4236-8501-cd21056c22e1" width="200">|<img src="https://github.com/user-attachments/assets/c9b7026f-c56a-4f4b-a8da-818017d658ca" width="200">|
-|인증된 드론 시리얼 및 장치 이름을 입력한 후 연결합니다.|원하는 정보를 모니터링할 화면 영역을 선택합니다.|데이터가 감지되면 처리되어 메인 서버로 전송됩니다.|
+|Enter the authorized drone serial and device name, then connect.|Select the regions on the screen to monitor the desired information.|When data is detected, it is processed and sent to the main server.|
 
-### 데이터 전송
-| 사람 감지 | 이벤트 데이터 전송 |
+### SEND DATA
+| DETECT HUMAN | SEND EVENT DATA |
 |:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img width="300" alt="스크린샷 2026-02-08 22 53 30" src="https://github.com/user-attachments/assets/b4f43752-97c3-4c60-ae6d-424b73721697" />|
-|사람을 자동으로 감지합니다.|이벤트 데이터를 서버로 전송합니다.<br>(이미지는 서버가 클라이언트로부터 받은 이벤트 데이터를 나타냅니다.)|
+|Automatically detect human.|Send event data to the server.<br>(The image represents event data received from the client by the server.)|
 
-| 텔레메트리 데이터 전송 |
+| SEND TELEMETRY DATA |
 |:---:|
 |<img width="300" alt="스크린샷 2026-02-08 22 53 55" src="https://github.com/user-attachments/assets/7356d83b-f2e8-42fd-8b9a-6096556ff142" />|
-|아무것도 감지되지 않으면 텔레메트리 데이터를 서버로 전송합니다.<br>(이미지는 서버가 클라이언트로부터 받은 텔레메트리 데이터를 나타냅니다.)|
+|If nothing is detected, send telemetry data to the server.<br>(The image represents telemetry data received from the client by the server.)|
 
 
 ---
-## 설치
-필요한 종속성을 설치합니다:
+## Installation
+Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 ---
-## 사용법
-애플리케이션을 실행합니다:
+## Usage
+Run the application:
 ```bash
 python3 main.py
 ```
 ---
-## 스택
-| 카테고리         | 기술                      | 버전      | 목적                             |
+## Stack
+| Category         | Technology                      | Version      | Purpose                             |
 |------------------|---------------------------------|-------------|-------------------------------------|
-| 언어         | Python                          | 3.x         | 핵심 애플리케이션 로직              |
-| 숫자 OCR         | Tesseract (pytesseract)         | 0.3.13      | 속도 및 텔레메트리 숫자 추출 |
-| 사람 감지 | YOLOv8 (Ultralytics)            | 8.4.12      | 실시간 사람 감지          |
-| 컴퓨터 비전  | OpenCV                          | 4.12.0.88   | 이미지 처리                    |
-| GUI              | PyQt5                           | 5.15.11     | 데스크톱 인터페이스                   |
-| 딥러닝           | PyTorch (torch, torchvision)    | 2.10.0 / 0.25.0 | 모델 추론 엔진          |
+| Language         | Python                          | 3.x         | Core application logic              |
+| Numeric OCR      | Tesseract (pytesseract)         | 0.3.13      | Extract speed and telemetry numbers |
+| Human Detection | YOLOv8 (Ultralytics)            | 8.4.12      | Real-time human detection          |
+| Computer Vision  | OpenCV                          | 4.12.0.88   | Image processing                    |
+| GUI              | PyQt5                           | 5.15.11     | Desktop interface                   |
+| Deep Learning    | PyTorch (torch, torchvision)    | 2.10.0 / 0.25.0 | Model inference engine          |
 
 ---
-## 이벤트 처리
-영상 피드에서 사람이 감지되면 이벤트가 생성됩니다.
-이벤트 데이터는 서버로 전송됩니다.
-서버와 클라이언트 모두 이러한 이벤트를 실시간으로 모니터링할 수 있습니다.
+## Event Handling
+When a human is detected in the video feed, an event is generated.
+The event data is transmitted to the server.
+Both the server and the client can monitor these events in real time.
 
 ---
-## 흐름
-| 전체 흐름 | AWS S3 업로드 흐름 |
+## FLOW
+| OVERALL FLOW | AWS S3 UPLOAD FLOW |
 |:---:|:---:|
 |<img height="1000" alt="Untitled diagram-2026-02-08-201750" src="https://github.com/user-attachments/assets/2d25b82b-3ebd-41e1-b0af-b928de5fdcc8" />|<img height="1000" alt="Untitled diagram-2026-02-08-201847" src="https://github.com/user-attachments/assets/2217b0cb-2b20-4789-b53f-d8443c5c4e76" />|
 ---
-## 주의 사항
-이 시스템은 드론의 비디오 정보를 실시간으로 모니터링할 수 있는 환경에서 작동해야 합니다.
-드론 텔레메트리 데이터는 일반적으로 카메라 드론의 리모트 컨트롤러 화면에서 얻습니다.
-화면에는 속도 및 기타 비행 정보가 표시되어야 합니다.
-좌표 감지를 위해서는 간단한 GPS 모듈이 연결되어야 하며, 해당 데이터는 화면에 표시되어 실시간으로 감지될 수 있어야 합니다.
+## Caution
+The system must operate in an environment where the drone’s video information can be monitored in real time.
+Drone telemetry data is typically obtained from the camera drone’s remote controller screen.
+The screen must display speed and other flight information.
+For coordinate detection, a simple GPS module should be attached, and its data must be visible on the screen so it can be detected in real time.
 
 ---
+
+---
+
+# PROJECT OVERVIEW
+# Manufacturer-Independent Drone Platform
+
+---
+It is a **manufacturer-independent integrated drone monitoring platform.**
+
+It is designed to manage various drones within a single environment,
+enabling both **high-end professional drones and commercially available hobby camera drones**
+to be used for lifesaving and disaster response.
+
+---
+
+## Project Structure
+
+This platform consists of multiple independent repositories:
+
+| Component | Description                                       | Repository                                                              |
+|---------|---------------------------------------------------|-------------------------------------------------------------------------|
+| Server | Core drone platform server (API, Auth, Telemetry) | [GitHub](https://github.com/seyun4047/drone-platform-server)            |
+| Monitoring Server | Real-time Drone health check monitoring service   | [GitHub](https://github.com/seyun4047/drone-platform-monitoring-server) |
+| Drone Data Tester | Test client for drone telemetry & data simulation | [GitHub](https://github.com/seyun4047/drone-platform-trans-tester)       |
+| Drone Client | Drone Data Collection, Transmission & Analysis | [GitHub](https://github.com/seyun4047/drone-platform-client)            |
+| Docs | Platform Documents | [GitHub](https://github.com/seyun4047/drone-platform-docs)|
+
+---
+
+## Background
+
+Although custom drones, commercial drones, and consumer drones share similar basic control mechanisms,
+their operational methods and **command-and-control structures** in real-world environments vary significantly.
+
+In practice, drones are often utilized as tools that depend heavily on:
+- Specific equipment
+- Highly trained personnel
+
+Recently, many institutions and companies have attempted to build drone systems integrated with AI technologies.  
+However, these systems have clear limitations. They typically rely on tuning specific drone models or operating a single type of custom-built drone, which results in strong dependency on specialized personnel and proprietary technologies.
+
+Such dependency is particularly critical in **life-saving and disaster response operations**.
+
+---
+## Project Goal
+- A manufacturer-independent drone monitoring platform that supports lifesaving and disaster response operations.
+
+---
+## Objectives
+
+- A drone monitoring and management system deployable regardless of drone model or manufacturer
+- A system that can be immediately deployed in the field without complex control procedures
+- A system that does not rely on the performance capabilities of specific drone hardware
+- A system that allows non-professional drone hobbyists to contribute effectively in emergency situations
+
+---
+
+## Expected Impact
+
+In life-saving and disaster response scenarios, before professional equipment or rescue teams arrive on site,  
+any available drone—if operable by anyone—can be immediately deployed to:
+- Assess victims
+- Identify hazards
+- Estimate damage
+
+By securing this critical **golden time**, the system enables faster decision-making and more effective deployment of advanced rescue resources, ultimately leading to more sophisticated and impactful drone-assisted emergency response systems.
+
+---
+
+## System Architecture
+
+### Overall System Architecture
+<img height="900" alt="Untitled diagram-2026-02-11-182634" src="https://github.com/user-attachments/assets/8842dd09-471e-4a75-8804-674f9cff675a" />
+
+
+---
+
+## Core System Flows
+
+|                                                                           Auth Logic                                                                            |                                          Control Data From Drone                                          |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
+|  <img width="450" alt="Redis Token Connection Flow-2026-02-01-182619" src="https://github.com/user-attachments/assets/cf0e6a9e-eeae-4525-aaf1-198c98e61c90" />  | <img src="https://github.com/user-attachments/assets/669647c6-ee30-4bfb-baea-d02e306070ea" width="450"/>  |
+|                                                   **Redis-based authentication and connection control flow.**                                                   |                    **Processing of control and telemetry data after authentication.**                     |
+
+|                                             Token Validation                                              |                                             Monitoring Server                                             |
+|:---------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/456dc993-64a0-4ac8-9138-0f5446aaad07" width="450"/>  |<img width="450" alt="Untitled diagram-2026-02-11-173920" src="https://github.com/user-attachments/assets/6eea1ba2-663d-4bf1-be1d-c729e3bda2f7" />
+  |
+|                          **Validation of Redis tokens for incoming drone data.**                          |                              **Periodic drone connection state monitoring.**                              |
