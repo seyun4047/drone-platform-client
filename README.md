@@ -1,5 +1,10 @@
 
 # Drone Data Transmission & Multi-ROI Detection Client
+---
+
+### [KOREAN GUIDE](https://github.com/seyun4047/drone-platform-docs/blob/main/components/client/client.kr.md)
+
+---
 
 ## Repository Overview
 - This client application collects telemetry data from a drone and transmits it to a central server in real time.
@@ -77,6 +82,11 @@ For coordinate detection, a simple GPS module should be attached, and its data m
 # PROJECT OVERVIEW
 # Manufacturer-Independent Drone Platform
 ---
+
+### [KOREAN GUIDE](https://github.com/seyun4047/drone-platform-docs/blob/main/components/platform/overview.kr.md)
+
+---
+
 It is a **manufacturer-independent integrated drone monitoring platform!**
 
 It is designed to manage various drones within a single environment,
