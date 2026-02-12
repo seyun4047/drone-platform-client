@@ -3,10 +3,6 @@
 
 ---
 
-Korean version: [한국어 문서](https://github.com/seyun4047/drone-platform-docs/blob/main/components/client/client.kr.md)
-
----
-
 # Drone Data Transmission & Multi-ROI Detection Client
 
 ---
