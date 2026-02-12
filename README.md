@@ -75,7 +75,7 @@ The screen must display speed and other flight information.
 For coordinate detection, a simple GPS module should be attached, and its data must be visible on the screen so it can be detected in real time.
 
 ---
-
+ 
 
 ---
 
@@ -165,3 +165,4 @@ By securing this critical **golden time**, the system enables faster decision-ma
 | <img src="https://github.com/user-attachments/assets/456dc993-64a0-4ac8-9138-0f5446aaad07" width="450"/>  |<img width="450" alt="Untitled diagram-2026-02-11-173920" src="https://github.com/user-attachments/assets/6eea1ba2-663d-4bf1-be1d-c729e3bda2f7" />
   |
 |                          **Validation of Redis tokens for incoming drone data.**                          |                              **Periodic drone connection state monitoring.**                              |
+ 
