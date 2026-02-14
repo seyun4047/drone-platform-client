@@ -1,6 +1,7 @@
 """
 ROI Manager - Handles ROI selection, overlays, and detectors
 """
+from detectors.power_detector import PowerDetector
 from ui.roi_overlay import ROIOverlay
 from detectors.speed_detector import SpeedDetector
 from detectors.person_detector import PersonDetector
@@ -20,6 +21,7 @@ class ROIManager:
             1: PersonDetector(),
             2: LongitudeDetector(),
             3: LatitudeDetector(),
+            4: PowerDetector(),
         }
 
         # Initialize ROI overlays
@@ -28,6 +30,7 @@ class ROIManager:
             1: ROIOverlay(1),
             2: ROIOverlay(2),
             3: ROIOverlay(3),
+            4: ROIOverlay(4),
         }
 
     def set_roi_coordinates(self, roi_type, x, y, w, h):

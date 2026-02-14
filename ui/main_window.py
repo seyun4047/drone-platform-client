@@ -39,7 +39,7 @@ class OCRApp(QWidget):
             sys.exit(1)
 
         # Initialize managers
-        self.roi_manager = ROIManager(num_rois=4)
+        self.roi_manager = ROIManager(num_rois=5)
         self.detection_manager = DetectionManager(self.roi_manager)
 
         # Initialize timer

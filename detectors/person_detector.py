@@ -12,7 +12,7 @@ class PersonDetector(BaseDetector):
     Person detection and logging
     """
     def __init__(self):
-        super().__init__(roi_type=3, roi_name='Person Detection')
+        super().__init__(roi_type=1, roi_name='Person Detection')
         self.detected_count = 0
 
         # YOLOv8 model

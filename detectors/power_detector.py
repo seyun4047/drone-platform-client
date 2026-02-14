@@ -2,14 +2,19 @@ import pytesseract
 from detectors.base_detector import BaseDetector
 import re
 
-class LatitudeDetector(BaseDetector):
+from detectors.base_detector import BaseDetector
+
+
+class PowerDetector(BaseDetector):
+
+
     """
-    Latitude measurement detector - recognizes numbers using OCR
+    Power measurement detector - recognizes numbers using OCR
     """
 
     def __init__(self):
-        super().__init__(roi_type=3, roi_name='Latitude')
-        self.last_latitude = None
+        super().__init__(roi_type=4, roi_name='Longitude')
+        self.last_longitude = None
 
     def process(self):
         image = self.capture_roi()
@@ -26,21 +31,21 @@ class LatitudeDetector(BaseDetector):
 
         if numbers:
             try:
-                latitude = float(numbers[0])
-                self.last_latitude = latitude
+                power = int(numbers[0])
+                self.last_power = power
             except ValueError:
-                latitude = self.last_latitude
+                power = self.last_power
         else:
-            latitude = self.last_latitude
+            power = self.last_power
 
-        if latitude is not None:
-            return {"latitude": latitude}
+        if power is not None:
+            return {"power": power}
 
         return None
 
     def _print_result(self, result):
         """Print result"""
         if result is not None:
-            print(f"Current Latitude: {result['latitude']:}")
+            print(f"Current Power: {result['power']:}")
         else:
-            print("Latitude could not be recognized")
+            print("Power could not be recognized")

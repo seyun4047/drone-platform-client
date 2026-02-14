@@ -9,7 +9,7 @@ class LongitudeDetector(BaseDetector):
     """
 
     def __init__(self):
-        super().__init__(roi_type=1, roi_name='Longitude')
+        super().__init__(roi_type=2, roi_name='Longitude')
         self.last_longitude = None
 
     def process(self):

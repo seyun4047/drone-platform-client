@@ -11,6 +11,7 @@ ROI_TYPES = {
     'PERSON': 1,
     'LONGITUDE': 2,
     'LATITUDE': 3,
+    'POWER': 4,
     # 'CUSTOM': 4
 }
 
@@ -20,6 +21,7 @@ ROI_NAMES = {
     1: 'Person Detect',
     2: 'Longitude Detect',
     3: 'Latitude Detect',
+    4: 'POWER DETECT'
     # 4: 'CUSTOM DETECT'
 }
 
@@ -35,5 +37,6 @@ ROI_COLORS = {
     1: (0, 255, 0),     # GREEN - PERSON
     2: (0, 0, 255),     # BLUE - LONGITUDE
     3: (255, 255, 0),   # YELLOW - PERSON
+    5: (255, 0, 255)    # MAGENTA - POWER
     # 4: (255, 0, 255)    # MAGENTA - CUSTOM
 }

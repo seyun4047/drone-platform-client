@@ -9,7 +9,7 @@ class SpeedDetector(BaseDetector):
     """
 
     def __init__(self):
-        super().__init__(roi_type=1, roi_name='Speed')
+        super().__init__(roi_type=0, roi_name='Speed')
         self.last_speed = None
 
     def process(self):
