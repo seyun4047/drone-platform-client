@@ -1,16 +1,18 @@
 """
-Main Application Window - UI Only
-Delegates business logic to managers
+DRONE COMMAND CORE - Futuristic Edition
+Deep Space Black & Neon Cyan HUD Theme
 """
+
 import sys
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
     QLabel, QLineEdit, QMessageBox, QGroupBox
 )
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtGui import QFont
 import pytesseract
 
-from config.config import TESSERACT_PATH, ROI_NAMES, DEFAULT_INTERVAL, MIN_INTERVAL
+from config.config import TESSERACT_PATH, ROI_NAMES, DEFAULT_INTERVAL
 from config.env_config import (
     TELEMETRY_SERVER_URL, DEFAULT_SERIAL, DEFAULT_DEVICE_NAME
 )
@@ -22,155 +24,224 @@ from managers.detection_manager import DetectionManager
 
 class OCRApp(QWidget):
     """
-    Main application window - UI layer only
+    High-End Drone Command Center UI
     """
 
     def __init__(self):
         super().__init__()
 
-        # Set Tesseract path
+        # Tesseract config
         try:
             pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
         except Exception as e:
-            QMessageBox.critical(
-                None, "Error",
-                f"Tesseract-OCR executable not found.\n{e}"
-            )
+            QMessageBox.critical(None, "SYSTEM ERROR", f"Tesseract Missing.\n{e}")
             sys.exit(1)
 
-        # Initialize managers
         self.roi_manager = ROIManager(num_rois=5)
         self.detection_manager = DetectionManager(self.roi_manager)
 
-        # Initialize timer
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.on_detection_timer)
-        self.is_running = False
 
-        # Telemetry client (initialized on connect)
+        self.is_running = False
         self.telemetry_client = None
 
         self.init_ui()
+        self.apply_modern_styles()
 
+    # ===============================
+    # FUTURISTIC STYLE
+    # ===============================
+    def apply_modern_styles(self):
+        self.setStyleSheet("""
+
+        QWidget {
+            background-color: #050B14;
+            color: #EAF6FF;
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+        }
+
+        QGroupBox {
+            background-color: rgba(15, 25, 45, 0.9);
+            border: 1px solid #0E2A47;
+            border-radius: 14px;
+            margin-top: 18px;
+            font-weight: bold;
+            color: #00E5FF;
+            padding: 10px;
+        }
+
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 20px;
+            padding: 0 6px;
+        }
+
+        QPushButton {
+            background-color: #0E1625;
+            border: 1px solid #00E5FF;
+            border-radius: 8px;
+            padding: 10px;
+            color: #00E5FF;
+            font-weight: 600;
+        }
+
+        QPushButton:hover {
+            background-color: #00E5FF;
+            color: #050B14;
+        }
+
+        QPushButton:pressed {
+            background-color: #00B8D4;
+        }
+
+        QPushButton:disabled {
+            border: 1px solid #1C3A5F;
+            color: #355C7D;
+            background-color: #08111E;
+        }
+
+        #RunButton[running="true"] {
+            border: 1px solid #FF3B3B;
+            color: #FF3B3B;
+        }
+
+        #RunButton[running="true"]:hover {
+            background-color: #FF3B3B;
+            color: white;
+        }
+
+        QLineEdit {
+            background-color: #08111E;
+            border: 1px solid #0E2A47;
+            border-radius: 6px;
+            padding: 6px;
+            color: #EAF6FF;
+            selection-background-color: #00E5FF;
+        }
+
+        QLineEdit:focus {
+            border: 1px solid #00E5FF;
+        }
+
+        QLabel#StatusLabel {
+            background-color: #08111E;
+            border: 1px solid #0E2A47;
+            border-radius: 10px;
+            padding: 14px;
+            font-family: 'Consolas';
+            font-size: 12px;
+            color: #00E5FF;
+        }
+
+        """)
+
+    # ===============================
+    # UI LAYOUT
+    # ===============================
     def init_ui(self):
-        """Initialize UI"""
-        self.setWindowTitle('Drone Video Multi-ROI Detection System')
-        self.setGeometry(100, 100, 500, 600)
+        self.setWindowTitle("MAIN-DRONE CLIENT")
+        self.setMinimumWidth(520)
 
-        main_layout = QVBoxLayout()
+        layout = QVBoxLayout()
+        layout.setContentsMargins(30, 30, 30, 30)
+        layout.setSpacing(18)
 
-        # ROI settings group
-        main_layout.addWidget(self._create_roi_group())
+        # ===== HEADER =====
+        title = QLabel("MAIN-DRONE CLIENT")
+        title.setFont(QFont("Consolas", 20, QFont.Bold))
+        title.setStyleSheet("color: #00E5FF; letter-spacing: 4px;")
+        layout.addWidget(title)
 
-        # Detection control group
-        main_layout.addWidget(self._create_control_group())
-
-        # Status display
-        self.status_label = QLabel("Status: Please set at least one ROI area")
-        main_layout.addWidget(self.status_label)
-
-        # Drone connection group
-        main_layout.addWidget(self._create_connection_group())
-
-        # Exit button
-        btn_exit = QPushButton('Exit Program')
-        btn_exit.clicked.connect(self.close)
-        main_layout.addWidget(btn_exit)
-
-        main_layout.addStretch(1)
-        self.setLayout(main_layout)
-
-    def _create_roi_group(self):
-        """Create ROI settings group"""
-        roi_group = QGroupBox("ROI Area Settings")
+        # ===== ROI CONFIG =====
+        roi_group = QGroupBox(" ROI CONFIGURATION ")
         roi_layout = QVBoxLayout()
 
         self.roi_buttons = {}
         self.roi_labels = {}
 
-        for roi_type in range(self.roi_manager.num_rois):
-            roi_name = ROI_NAMES[roi_type]
+        for i in range(self.roi_manager.num_rois):
+            row = QHBoxLayout()
 
-            h_layout = QHBoxLayout()
+            btn = QPushButton(f"SET AREA {ROI_NAMES[i]}")
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.clicked.connect(lambda checked, rt=i: self.select_roi(rt))
 
-            # ROI selection button
-            btn = QPushButton(f'Select {roi_name} Area')
-            btn.clicked.connect(lambda checked, rt=roi_type: self.select_roi(rt))
-            self.roi_buttons[roi_type] = btn
-            h_layout.addWidget(btn)
+            lbl = QLabel(f"[{ROI_NAMES[i]}] :: STANDBY")
+            lbl.setStyleSheet("color: #6C8CA3; font-size: 11px;")
 
-            # Status label
-            label = QLabel("Not set")
-            label.setStyleSheet("color: gray;")
-            self.roi_labels[roi_type] = label
-            h_layout.addWidget(label)
+            row.addWidget(btn)
+            row.addWidget(lbl)
+            roi_layout.addLayout(row)
 
-            roi_layout.addLayout(h_layout)
+            self.roi_buttons[i] = btn
+            self.roi_labels[i] = lbl
 
         roi_group.setLayout(roi_layout)
-        return roi_group
+        layout.addWidget(roi_group)
 
-    def _create_control_group(self):
-        """Create detection control group"""
-        control_group = QGroupBox("Detection Settings")
-        control_layout = QVBoxLayout()
+        # ===== SCAN PARAMETERS =====
+        scan_group = QGroupBox(" SCAN PARAMETERS ")
+        scan_layout = QVBoxLayout()
 
-        # Detection interval setting
-        interval_layout = QHBoxLayout()
-        interval_layout.addWidget(QLabel("Detection interval (seconds):"))
+        freq_row = QHBoxLayout()
+        freq_row.addWidget(QLabel("UPDATE FREQUENCY (SEC):"))
+
         self.interval_input = QLineEdit(str(DEFAULT_INTERVAL))
-        self.interval_input.setMaximumWidth(100)
-        interval_layout.addWidget(self.interval_input)
-        interval_layout.addStretch(1)
-        control_layout.addLayout(interval_layout)
+        self.interval_input.setFixedWidth(70)
+        self.interval_input.setAlignment(Qt.AlignCenter)
 
-        # Start/Stop button
-        self.btn_run = QPushButton('Start Detection')
-        self.btn_run.clicked.connect(self.toggle_detection)
+        freq_row.addWidget(self.interval_input)
+        freq_row.addStretch()
+        scan_layout.addLayout(freq_row)
+
+        self.btn_run = QPushButton("INITIATE SCAN")
+        self.btn_run.setObjectName("RunButton")
+        self.btn_run.setProperty("running", "false")
         self.btn_run.setEnabled(False)
-        control_layout.addWidget(self.btn_run)
+        self.btn_run.clicked.connect(self.toggle_detection)
 
-        control_group.setLayout(control_layout)
-        return control_group
+        scan_layout.addWidget(self.btn_run)
+        scan_group.setLayout(scan_layout)
+        layout.addWidget(scan_group)
 
-    def _create_connection_group(self):
-        """Create drone connection group"""
-        conn_group = QGroupBox("Drone Connection")
-        conn_layout = QVBoxLayout()
+        # ===== STATUS PANEL =====
+        self.status_label = QLabel("> SYSTEM IDLE :: WAITING CONFIG")
+        self.status_label.setObjectName("StatusLabel")
+        layout.addWidget(self.status_label)
 
-        # Serial input
-        serial_layout = QHBoxLayout()
-        serial_layout.addWidget(QLabel("Serial:"))
-        self.serial_input = QLineEdit()
-        self.serial_input.setText(DEFAULT_SERIAL)
-        serial_layout.addWidget(self.serial_input)
-        conn_layout.addLayout(serial_layout)
+        # ===== TERMINAL LINK =====
+        conn_group = QGroupBox(" TERMINAL LINK ")
+        conn_layout = QHBoxLayout()
 
-        # Device name input
-        name_layout = QHBoxLayout()
-        name_layout.addWidget(QLabel("Device Name:"))
-        self.device_input = QLineEdit()
-        self.device_input.setText(DEFAULT_DEVICE_NAME)
-        name_layout.addWidget(self.device_input)
-        conn_layout.addLayout(name_layout)
+        self.serial_input = QLineEdit(DEFAULT_SERIAL)
+        self.device_input = QLineEdit(DEFAULT_DEVICE_NAME)
 
-        # Connect button
-        self.btn_connect = QPushButton("Connect")
+        self.btn_connect = QPushButton("LINK")
+        self.btn_connect.setFixedWidth(90)
         self.btn_connect.clicked.connect(self.connect_drone)
+
+        conn_layout.addWidget(self.serial_input)
+        conn_layout.addWidget(self.device_input)
         conn_layout.addWidget(self.btn_connect)
 
         conn_group.setLayout(conn_layout)
-        return conn_group
+        layout.addWidget(conn_group)
 
+        # ===== EXIT =====
+        btn_exit = QPushButton("CLOSE TERMINAL")
+        btn_exit.setStyleSheet("border: 1px solid #233554; color: #355C7D;")
+        btn_exit.clicked.connect(self.close)
+        layout.addWidget(btn_exit)
+
+        self.setLayout(layout)
+
+    # ===============================
+    # LOGIC
+    # ===============================
     def connect_drone(self):
-        """Connect to drone telemetry server"""
         serial = self.serial_input.text().strip()
         device_name = self.device_input.text().strip()
-
-        if not serial or not device_name:
-            print("Connection failed: serial or device_name missing")
-            QMessageBox.warning(self, "Warning", "Please enter serial and device name.")
-            return
 
         self.telemetry_client = TelemetryClient(
             client_url=TELEMETRY_SERVER_URL,
@@ -179,114 +250,76 @@ class OCRApp(QWidget):
         )
 
         if self.telemetry_client.connect():
-            print(f"[CONNECT SUCCESS] serial={serial}, device_name={device_name}")
-            self.status_label.setText("Status: Drone connected")
-
-            # Update detection manager with telemetry client
+            self.status_label.setText(f"> LINK ESTABLISHED :: {device_name.upper()}")
+            self.status_label.setStyleSheet("""
+                border: 1px solid #00E5FF;
+                color: #00E5FF;
+                background-color: #08111E;
+            """)
             self.detection_manager.set_telemetry_client(self.telemetry_client)
         else:
-            print(f"[CONNECT FAILED] serial={serial}, device_name={device_name}")
-            self.status_label.setText("Status: Connection failed")
-            self.telemetry_client = None
+            self.status_label.setText("> LINK FAILURE :: CONNECTION REFUSED")
+            self.status_label.setStyleSheet("""
+                border: 1px solid #FF3B3B;
+                color: #FF3B3B;
+                background-color: #08111E;
+            """)
 
     def select_roi(self, roi_type):
-        """Open ROI selection window"""
         self.hide()
         self.selection_window = SelectionWindow(parent=self, roi_type=roi_type)
         self.selection_window.show()
 
     def set_roi_coordinates(self, roi_type, x, y, w, h):
-        """Set ROI coordinates (called by SelectionWindow)"""
-        # Delegate to ROI manager
         self.roi_manager.set_roi_coordinates(roi_type, x, y, w, h)
-
-        # Update UI
-        roi_name = ROI_NAMES[roi_type]
-        self.roi_labels[roi_type].setText(f"Set: ({x}, {y}, {w}, {h})")
-        self.roi_labels[roi_type].setStyleSheet("color: green;")
-
-        # Enable run button if at least one ROI is set
+        self.roi_labels[roi_type].setText(f"LOCKED :: {x},{y} ({w}x{h})")
+        self.roi_labels[roi_type].setStyleSheet(
+            "color: #00E5FF; font-weight: bold;"
+        )
         self.btn_run.setEnabled(True)
-
         self.show()
 
     def toggle_detection(self):
-        """Toggle detection start/stop"""
         if self.is_running:
             self.stop_detection()
         else:
             self.start_detection()
 
     def start_detection(self):
-        """Start detection"""
-        # Check if at least one ROI is set
-        if not self.roi_manager.has_any_roi():
-            QMessageBox.warning(
-                self, "Warning",
-                "Please set at least one ROI area."
-            )
-            return
-
         try:
             interval = float(self.interval_input.text())
-            if interval < MIN_INTERVAL:
-                QMessageBox.warning(
-                    self, "Warning",
-                    f"Interval must be at least {MIN_INTERVAL} seconds."
-                )
-                return
-
-            # Start timer
             self.timer.start(int(interval * 1000))
             self.is_running = True
-
-            # Activate all ROI detectors and overlays
             self.roi_manager.activate_all()
 
-            # Update UI
-            self.btn_run.setText(f'Stop Detection (Interval: {interval}s)')
-            self.status_label.setText("Status: Detection running... (check terminal)")
+            self.btn_run.setText("TERMINATE SCAN")
+            self.btn_run.setProperty("running", "true")
+            self.btn_run.setStyle(self.btn_run.style())
 
-            print("\n" + "=" * 60)
-            print("=== Multi-ROI Detection Started ===")
-            print(f"=== Detection interval: {interval} seconds ===")
-            print("=" * 60 + "\n")
-
-        except ValueError:
-            QMessageBox.warning(
-                self, "Warning",
-                "Please enter a valid number for the detection interval."
-            )
+            self.status_label.setText(f"> SCANNING ACTIVE :: {interval} SEC")
+        except:
+            pass
 
     def stop_detection(self):
-        """Stop detection"""
         self.timer.stop()
         self.is_running = False
-
-        # Deactivate all detectors and overlays
         self.roi_manager.deactivate_all()
 
-        # Update UI
-        self.btn_run.setText('Start Detection')
-        self.status_label.setText("Status: Detection stopped")
+        self.btn_run.setText("INITIATE SCAN")
+        self.btn_run.setProperty("running", "false")
+        self.btn_run.setStyle(self.btn_run.style())
 
-        print("\n" + "=" * 60)
-        print("=== Multi-ROI Detection Stopped ===")
-        print("=" * 60 + "\n")
+        self.status_label.setText("> SCAN TERMINATED")
 
     def on_detection_timer(self):
-        """Timer callback - delegate to detection manager"""
         self.detection_manager.perform_detection()
 
     def closeEvent(self, event):
-        """Window close event"""
         if self.is_running:
             self.stop_detection()
 
-        # Close all overlays
         self.roi_manager.close_all_overlays()
 
-        # Disconnect telemetry
         if self.telemetry_client:
             self.telemetry_client.disconnect()
 

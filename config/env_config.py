@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Server Configuration
-TELEMETRY_SERVER_URL = os.getenv("TELEMETRY_SERVER_URL", "http://127.0.0.1:8080")
+TELEMETRY_SERVER_URL = os.getenv("TELEMETRY_SERVER_URL", "<YOUR_SERVER_URL>")
 
 # Default Drone Connection Settings
 DEFAULT_SERIAL = os.getenv("DRONE_SERIAL", "drone-serial")
