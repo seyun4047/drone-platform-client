@@ -2,7 +2,6 @@ import pytesseract
 from detectors.base_detector import BaseDetector
 import re
 
-
 class LongitudeDetector(BaseDetector):
     """
     Longitude measurement detector - recognizes numbers using OCR

@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from PIL import ImageGrab
 import time
 
-
 # Parent class for Detector
 
 class BaseDetector(ABC):

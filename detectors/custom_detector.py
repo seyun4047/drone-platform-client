@@ -1,6 +1,4 @@
-
 from detectors.base_detector import BaseDetector
-
 
 class CustomDetector(BaseDetector):
     """

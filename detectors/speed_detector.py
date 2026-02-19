@@ -2,7 +2,6 @@ import pytesseract
 from detectors.base_detector import BaseDetector
 import re
 
-
 class SpeedDetector(BaseDetector):
     """
     Speed measurement detector - recognizes numbers using OCR

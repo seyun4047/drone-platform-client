@@ -2,9 +2,6 @@ import pytesseract
 from detectors.base_detector import BaseDetector
 import re
 
-from detectors.base_detector import BaseDetector
-
-
 class PowerDetector(BaseDetector):
 
 
