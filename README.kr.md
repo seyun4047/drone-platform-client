@@ -17,18 +17,18 @@
 ### SETUP
 | 1. CONNECT TO THE SERVER | 2. SELECT ROI | 3. ANALYSIS |
 |:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/e5336103-6f95-4023-8e5e-401f4d8cf3f1" width="200">|<img src="https://github.com/user-attachments/assets/548a50ed-01da-4236-8501-cd21056c22e1" width="200">|<img src="https://github.com/user-attachments/assets/c9b7026f-c56a-4f4b-a8da-818017d658ca" width="200">|
+|<img width="200" alt="connect_to_the_server" src="https://github.com/user-attachments/assets/d15b80d3-28c8-4fd1-aefe-d77681471950" /> |<img width="200" alt="select_roi" src="https://github.com/user-attachments/assets/3c84c375-0ae8-4964-84a5-62a603ef8cde" /> | <img width="200" alt="analysis" src="https://github.com/user-attachments/assets/b39e6ae3-44a2-4e24-93ab-0ca1fdbc4222" /> |
 |Enter the authorized drone serial and device name, then connect.|Select the regions on the screen to monitor the desired information.|When data is detected, it is processed and sent to the main server.|
 
 ### SEND DATA
 | DETECT HUMAN | SEND EVENT DATA |
 |:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img width="300" alt="스크린샷 2026-02-08 22 53 30" src="https://github.com/user-attachments/assets/b4f43752-97c3-4c60-ae6d-424b73721697" />|
+|<img alt="detect_human_ex" src="https://github.com/user-attachments/assets/2c66ff16-f5ff-43eb-b082-97bfa7bc7d7c" width="300">|<img width="500" height="83" alt="event_data" src="https://github.com/user-attachments/assets/c5db2f05-a378-4eae-acad-22f84dea28e1" /> |
 |Automatically detect human.|Send event data to the server.<br>(The image represents event data received from the client by the server.)|
 
 | SEND TELEMETRY DATA |
 |:---:|
-|<img width="300" alt="스크린샷 2026-02-08 22 53 55" src="https://github.com/user-attachments/assets/7356d83b-f2e8-42fd-8b9a-6096556ff142" />|
+|<img  width="500" height="66" alt="telemetry_data" src="https://github.com/user-attachments/assets/bed9bc00-f311-4317-9bef-54cb4e3d6934"/> |
 |If nothing is detected, send telemetry data to the server.<br>(The image represents telemetry data received from the client by the server.)|
 
 
@@ -74,6 +74,7 @@ The screen must display speed and other flight information.
 For coordinate detection, a simple GPS module should be attached, and its data must be visible on the screen so it can be detected in real time.
 
 ---
+
 
 ---
 
