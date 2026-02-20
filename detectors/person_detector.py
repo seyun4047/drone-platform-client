@@ -2,10 +2,8 @@ import os
 import cv2
 import numpy as np
 from datetime import datetime
-from aws.presigned_upload_client import PresignedUploadClient
 from detectors.base_detector import BaseDetector
 from ultralytics import YOLO
-from config.env_config import SERVER_URL
 
 class PersonDetector(BaseDetector):
     """
@@ -24,9 +22,6 @@ class PersonDetector(BaseDetector):
 
         # Log directory
         os.makedirs("log/pic", exist_ok=True)
-
-        # Presigned upload client
-        self.upload_client = PresignedUploadClient(SERVER_URL)
 
     def process(self):
         image = self.capture_roi()
@@ -67,14 +62,14 @@ class PersonDetector(BaseDetector):
                 )
 
         count = len(person)
-        s3_url = None
+        img_path = None
 
         if count > 0:
-            s3_url = self._save_event(frame, person)
+            img_path = self._save_event(frame, person)
 
         return {
             "person_count": count,
-            "image_path": s3_url
+            "image_path": img_path
         }
 
     def _save_event(self, frame, person):
@@ -87,8 +82,7 @@ class PersonDetector(BaseDetector):
 
         with open(log_path, "a") as f:
             f.write(f"[{timestamp}] detected {len(person)} person: {person}\n")
-        s3_url = self.upload_client.upload_file(img_path)
-        return s3_url
+        return img_path
 
     def _print_result(self, result):
         if result and "person_count" in result:

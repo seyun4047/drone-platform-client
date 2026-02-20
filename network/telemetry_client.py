@@ -1,5 +1,5 @@
 import requests
-
+from aws.sts_s3_uploader import DroneS3Uploader
 
 class TelemetryClient:
     """
@@ -27,14 +27,15 @@ class TelemetryClient:
                 timeout=5
             )
             result = res.json()
-
+            print(result)
             if not result.get("status"):
                 print("Connection failed:", result)
                 return False
 
             self.token = result["token"]
             self.connected = True
-
+            self.sts = result["sts"]
+            self.uploader = DroneS3Uploader(self.sts)
             print("Connected successfully")
             print("TOKEN:", self.token)
             return True
@@ -98,7 +99,8 @@ class TelemetryClient:
     def send_event(self, telemetry_data, event_detail):
         if not self.connected:
             return
-
+        img_path = event_detail.get("image")
+        event_detail["image"] = self.uploader.upload_image_path(self.serial, img_path)
         payload = {
             "event": 1,
             "serial": self.serial,
