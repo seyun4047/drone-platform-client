@@ -56,6 +56,7 @@ class TelemetryClient:
                 f"{self.client_url}/auth/disconnect",
                 json={
                     "serial": self.serial,
+                    "device_name": self.device_name,
                     "token": self.token
                 },
                 timeout=5
@@ -88,7 +89,12 @@ class TelemetryClient:
                 json=payload,
                 timeout=5
             )
-            print("Telemetry:", res.json())
+            if not res.json()["status"]:
+                print("RETRY!!!", res)
+                self.disconnect()
+                self.connect()
+            else:
+                print("Telemetry:", res.json())
 
         except Exception as e:
             print("Telemetry send failed:", e)
@@ -118,7 +124,12 @@ class TelemetryClient:
                 json=payload,
                 timeout=5
             )
-            print("Event:", res.json())
+            if not res.json()["status"]:
+                print("RETRY!!!", res)
+                self.disconnect()
+                self.connect()
+            else:
+                print("Event:", res.json())
 
         except Exception as e:
             print("Event send failed:", e)
