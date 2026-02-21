@@ -65,7 +65,7 @@ Both the server and the client can monitor these events in real time.
 ## FLOW
 | OVERALL FLOW | AWS S3 UPLOAD FLOW |
 |:---:|:---:|
-|<img height="1000" alt="overall flow" src="https://github.com/user-attachments/assets/187f25db-d82c-415c-9dc3-6aa01c0a374a" />|<img height="1000" alt="aws s3 upload flow" src="https://github.com/user-attachments/assets/0597c7c9-e2e1-4be7-ae5c-de554b0f88ff" />|
+|<img height="1000" alt="Overall flow" src="https://github.com/user-attachments/assets/8e1de094-ba4e-4340-bc16-c5660f0cc688" />|<img height="1000" alt="aws s3 upload flow" src="https://github.com/user-attachments/assets/0597c7c9-e2e1-4be7-ae5c-de554b0f88ff" />|
 ---
 ## Caution
 The system must operate in an environment where the drone’s video information can be monitored in real time.
@@ -193,16 +193,10 @@ and impactful drone-assisted emergency response systems.
 <details>
   <summary>Click to expand</summary>
 
-|                                                                           Auth Logic                                                                            |                                          Control Data From Drone                                          |
-|:---------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
-|  <img width="450" alt="Redis Token Connection Flow-2026-02-01-182619" src="https://github.com/user-attachments/assets/cf0e6a9e-eeae-4525-aaf1-198c98e61c90" />  | <img width="450" alt="Redis Token Connection Flow-2026-02-01-182708" src="https://github.com/user-attachments/assets/a344e0c5-b12a-45ab-951c-0cefcc87bf2b" />
- |
-|                                                   **Redis-based authentication and connection control flow.**                                                   |                    **Processing of control and telemetry data after authentication.**                     |
-
-|                                             Token Validation                                              |                                             Monitoring Server                                             |
-|:---------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
-| <img src="https://github.com/user-attachments/assets/456dc993-64a0-4ac8-9138-0f5446aaad07" width="450"/>  |<img width="450" alt="Untitled diagram-2026-02-11-173920" src="https://github.com/user-attachments/assets/6eea1ba2-663d-4bf1-be1d-c729e3bda2f7" />|
-|                          **Validation of Redis tokens for incoming drone data.**                          |                              **Periodic drone connection state monitoring.**                             |
+|                                                                           Auth Logic                                                                            |                                          Control Data From Drone                                          |                                           Drone's Token Validation                                              |                                             Monitoring Server                                             |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
+|  <img width="450" alt="Auth logic flow" src="https://github.com/user-attachments/assets/cf0e6a9e-eeae-4525-aaf1-198c98e61c90" />  |<img width="450" alt="Control data flow" src="https://github.com/user-attachments/assets/f8c4acf7-0cbe-4ca3-b7fe-6aee4f3e854c" /> | <img alr="Token validation flow" src="https://github.com/user-attachments/assets/456dc993-64a0-4ac8-9138-0f5446aaad07" width="450"/>  |<img width="450" alt="Monitoring server flow" src="https://github.com/user-attachments/assets/6eea1ba2-663d-4bf1-be1d-c729e3bda2f7" />|
+|                                                   **Redis-based authentication and connection control flow.**                                                   |                    **Processing of control and telemetry data after authentication.**                     |                         **Validation of Redis tokens for incoming drone data.**                          |                              **Periodic drone connection state monitoring.**                             |
 
 | Back-End <-> Front-End |
 |:---:|
