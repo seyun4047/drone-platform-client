@@ -6,7 +6,8 @@ Deep Space Black & Neon Cyan HUD Theme
 import sys
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
-    QLabel, QLineEdit, QMessageBox, QGroupBox
+    QLabel, QLineEdit, QMessageBox, QGroupBox,
+    QMenuBar, QAction, QInputDialog
 )
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QFont
@@ -45,6 +46,7 @@ class OCRApp(QWidget):
 
         self.is_running = False
         self.telemetry_client = None
+        self.server_url = TELEMETRY_SERVER_URL
 
         self.init_ui()
         self.apply_modern_styles()
@@ -54,7 +56,35 @@ class OCRApp(QWidget):
     # ===============================
     def apply_modern_styles(self):
         self.setStyleSheet("""
-
+        QMenuBar {
+            background-color: #050B14;
+            color: #00E5FF;
+            border-bottom: 1px solid #0E2A47;
+        }
+        
+        QMenuBar::item {
+            background: transparent;
+            padding: 6px 14px;
+        }
+        
+        QMenuBar::item:selected {
+            background: #0E2A47;
+        }
+        
+        QMenu {
+            background-color: #08111E;
+            color: #00E5FF;
+            border: 1px solid #0E2A47;
+        }
+        
+        QMenu::item {
+            padding: 6px 20px;
+        }
+        
+        QMenu::item:selected {
+            background-color: #00E5FF;
+            color: #050B14;
+        }
         QWidget {
             background-color: #050B14;
             color: #EAF6FF;
@@ -147,6 +177,17 @@ class OCRApp(QWidget):
         layout.setContentsMargins(30, 30, 30, 30)
         layout.setSpacing(18)
 
+        # ===== MENU BAR =====
+        self.menu_bar = QMenuBar(self)
+
+        self.server_menu = self.menu_bar.addMenu("SERVER")
+
+        self.action_set_server = QAction("SET TELEMETRY SERVER URL", self)
+        self.action_set_server.triggered.connect(self.set_server_url)
+
+        self.server_menu.addAction(self.action_set_server)
+
+        layout.setMenuBar(self.menu_bar)
         # ===== HEADER =====
         title = QLabel("MAIN-DRONE CLIENT")
         title.setFont(QFont("Consolas", 20, QFont.Bold))
@@ -239,12 +280,27 @@ class OCRApp(QWidget):
     # ===============================
     # LOGIC
     # ===============================
+
+    # set_server_url
+    def set_server_url(self):
+        url, ok = QInputDialog.getText(
+            self,
+            "SET TELEMETRY SERVER",
+            "ENTER SERVER URL:",
+            text=self.server_url
+        )
+
+        if ok and url.strip():
+            self.server_url = url.strip()
+            self.status_label.setText(f"> SERVER UPDATED :: {self.server_url}")
+
     def connect_drone(self):
         serial = self.serial_input.text().strip()
         device_name = self.device_input.text().strip()
 
         self.telemetry_client = TelemetryClient(
-            client_url=TELEMETRY_SERVER_URL,
+            # client_url=TELEMETRY_SERVER_URL,
+            client_url=self.server_url,
             serial=serial,
             device_name=device_name
         )
